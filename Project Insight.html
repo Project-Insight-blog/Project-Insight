@@ -19,10 +19,6 @@
       text-align: center;
     }
 
-    h1 {
-      margin: 0;
-    }
-
     .container {
       max-width: 800px;
       margin: 2rem auto;
@@ -43,6 +39,27 @@
       font-size: 1rem;
     }
 
+    .tags {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .tag {
+      display: inline-block;
+      background-color: #eee;
+      color: #333;
+      border-radius: 20px;
+      padding: 5px 12px;
+      margin: 5px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: background 0.2s;
+    }
+
+    .tag:hover {
+      background-color: #ccc;
+    }
+
     .article {
       background: white;
       padding: 1.5rem;
@@ -51,20 +68,23 @@
       margin-bottom: 2rem;
     }
 
-    .article h2 {
-      margin-top: 0;
-      color: #333;
+    .article h2 a {
+      color: #0055aa;
+      text-decoration: none;
     }
 
-    .article p.date {
-      font-size: 0.9rem;
-      color: #888;
+    .article h2 a:hover {
+      text-decoration: underline;
     }
 
-    .article p.content {
+    .article .tags-inline {
       margin-top: 0.5rem;
-      color: #444;
-      line-height: 1.6;
+    }
+
+    .article .tags-inline .tag {
+      font-size: 0.8rem;
+      background-color: #dfefff;
+      color: #0055aa;
     }
 
     footer {
@@ -83,34 +103,54 @@
   </header>
 
   <div class="container">
+
     <div class="search-box">
       <input type="text" id="searchInput" placeholder="Search articles..." onkeyup="filterArticles()" />
     </div>
 
+    <div class="tags">
+      <span class="tag" onclick="filterByTag('all')">All</span>
+      <span class="tag" onclick="filterByTag('Environment')">Environment</span>
+      <span class="tag" onclick="filterByTag('Energy')">Energy</span>
+      <span class="tag" onclick="filterByTag('Health')">Health</span>
+    </div>
+
     <div id="articles">
-      <div class="article">
-        <h2>Bioengineered Algae Reactors in Mongolian Winters</h2>
+
+      <div class="article" data-tags=" Health ">
+        <h2><a href="alcohol.html">Can We Feed the Brain What It Needs to Heal from Alcohol?</a></h2>
         <p class="date">Published: June 21, 2025</p>
         <p class="content">
-          This research investigates how algae-based oxygen reactors can reduce air pollution in Mongolia's ger districts. The solution focuses on high-efficiency photosynthetic bioreactors that work in sub-zero temperatures, replacing traditional smoke-heavy heating sources.
+          This research explores  <strong>Click to read more.</strong>
         </p>
+        <div class="tags-inline"> 
+          <span class="tag">Health</span>
+        </div>
       </div>
 
-      <div class="article">
-        <h2>Reducing Indoor Air Pollution with Passive Filtration</h2>
+      <div class="article" data-tags="Environment">
+        <h2><a href="smt.html">smt</a></h2>
         <p class="date">Published: May 12, 2025</p>
         <p class="content">
-          We explored the effect of passive air filters using locally sourced bio-materials like sheep wool and coal ash filters. This low-cost solution is designed to improve indoor air in urban yurts during winter months.
+          This paper proposes  <strong>Click to read more.</strong>
         </p>
+        <div class="tags-inline">
+          <span class="tag">Environment</span>
+        </div>
       </div>
 
-      <div class="article">
-        <h2>Thermodynamic Efficiency of Mongolian Heating Methods</h2>
+      <div class="article" data-tags="Energy Technology">
+        <h2><a href="smt2.html">smt2</a></h2>
         <p class="date">Published: March 30, 2025</p>
         <p class="content">
-          A comparative study on energy loss in traditional coal-burning stoves versus alternative sustainable heating technologies. Results show potential 40% reduction in fuel usage with better insulation and optimized air intake design.
+          A study comparing  <strong>Click to read more.</strong>
         </p>
+        <div class="tags-inline">
+          <span class="tag">Energy</span>
+          <span class="tag">Technology</span>
+        </div>
       </div>
+
     </div>
   </div>
 
@@ -126,10 +166,20 @@
       articles.forEach(article => {
         const title = article.querySelector("h2").textContent.toLowerCase();
         const content = article.querySelector(".content").textContent.toLowerCase();
-        const isMatch = title.includes(input) || content.includes(input);
-
-        article.style.display = isMatch ? "block" : "none";
+        const match = title.includes(input) || content.includes(input);
+        article.style.display = match ? "block" : "none";
       });
+    }
+
+    function filterByTag(tag) {
+      const articles = document.querySelectorAll("#articles .article");
+
+      articles.forEach(article => {
+        const tags = article.getAttribute("data-tags").toLowerCase();
+        article.style.display = (tag === 'all' || tags.includes(tag.toLowerCase())) ? "block" : "none";
+      });
+
+      document.getElementById("searchInput").value = '';
     }
   </script>
 
